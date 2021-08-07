@@ -1,10 +1,13 @@
 import './App.css'
-import MovieSearch from './MovieSearch'
+import { BrowserRouter } from 'react-router-dom'
+import Routes from './Routes'
 
 const App = () => {
   return (
     <div className="App">
-      <MovieSearch />
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
     </div>
   )
 }
