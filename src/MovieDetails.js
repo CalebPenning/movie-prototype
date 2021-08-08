@@ -1,11 +1,11 @@
 import baseUrl from "./secrets"
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { useParams, useHistory } from "react-router-dom"
-const MovieDetails = () => {
-    const history = useHistory()
+import { useParams, Redirect } from "react-router-dom"
+const MovieDetails = ({ searchTerm, pageNum }) => {
     const { imdbID } = useParams()
     const [isLoading, setIsLoading] = useState(true)
+    const [goBack, setGoBack] = useState(false)
     // const [error, setError] 
     const [movie, setMovie] = useState({})
     useEffect(() => {
@@ -22,9 +22,7 @@ const MovieDetails = () => {
         return <p>Loading...</p>
     }
 
-    const handleClick = () => {
-        history.goBack()
-    }
+    if (goBack) return <Redirect to={`/movies/${searchTerm}/${pageNum}`} />
     
     return (
         <div>
@@ -40,20 +38,14 @@ const MovieDetails = () => {
                 })}
             </ul>
             <section>
+                <p> Starring: {movie.Actors} </p>
+                <p> Directed by: {movie.Director} </p>
+                <p> {"Writer(s): "} {movie.Writer} </p>
                 <p>
-                Starring: {movie.Actors}
-                </p>
-                <p>
-                Directed by: {movie.Director}
-                </p>
-                <p>
-                {"Writer(s): "} {movie.Writer}
-                </p>
-                <p>
-                <b>Plot:</b> {movie.Plot}
+                    <b>Plot:</b> {movie.Plot}
                 </p>
             </section>
-            <button onClick={handleClick}>Go Back</button>
+            <button className="go-back" onClick={() => setGoBack(true)}>Go Back</button>
         </div>
     )
 }
